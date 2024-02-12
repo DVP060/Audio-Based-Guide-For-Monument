@@ -1,6 +1,6 @@
 import datetime
 import smtplib
-
+from django.core.mail import send_mail
 import random2
 from django.core.exceptions import *
 from django.http import HttpResponse
@@ -90,30 +90,11 @@ def guide_booked(request,name,id,userid):
         request.session['monument'] = id
         request.session.save()
 
-        # CLIENT_SECRET_FILE = 'client_secret.json'
-        # API_NAME = 'gmail'
-        # API_VERSION = 'v1'
-        # SCOPES = ['https://mail.google.com/']
-        #
-        # service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
-        #
-        # emailMsg = "Thank you for choosing Traveler's Bible To Booking Guide, we have sent you a One-Time Password (OTP) to your registered email address Thank you for using our services, and we look forward to providing you with a seamless and enjoyable travel experience.\n Your One-Time Password (OTP) Is :- <b>"+str(otp)+"</b>"
-        # mimeMessage = MIMEMultipart()
-        # mimeMessage['to'] = email
-        # mimeMessage['subject'] = 'Testing OTP'
-        # mimeMessage.attach(MIMEText(emailMsg, 'plain'))
-        # raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
-        #
-        # message = service.users().messages().send(userId='me', body={'raw': raw_string}).execute()
-        # print(message)
-
-        from django.core.mail import send_mail
-
         try:
             send_mail(
             'Your OTP',
             "Thank you for choosing Traveler's Bible,\n Your One-Time Password (OTP) Is :- <b>"+str(otp)+"</b>",
-            '',
+            'sender email address',
             [email],
             fail_silently=False,)
         except smtplib.SMTPException as e:
@@ -162,7 +143,7 @@ def otp_verify(request):
                     "Thank you for choosing us as your guide. We can't wait to show you around."
                     "Best regards,"
                     "<b>Traveler's Bible</b>",
-                    'testingabgfm@gmail.com',
+                    'sender email address',
                     [email],
                     fail_silently=False,
                 )
@@ -175,21 +156,6 @@ def otp_verify(request):
                                 end_time=end_time)
             insertdata.save()
 
-            # CLIENT_SECRET_FILE = 'client_secret.json'
-            # API_NAME = 'gmail'
-            # API_VERSION = 'v1'
-            # SCOPES = ['https://mail.google.com/']
-            #
-            # service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
-            # email = request.session['email']
-            # emailMsg = 'You have successfully completed guide booking <b>'+request.session['logname']+'</b>'
-            # mimeMessage = MIMEMultipart()
-            # mimeMessage['to'] = request.session['email']
-            # mimeMessage['subject'] = 'Guide Booked Successfully'
-            # mimeMessage.attach(MIMEText(emailMsg, 'html'))
-            # raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
-            # message = service.users().messages().send(userId='me',body={'raw': raw_string}).execute()
-            # print(message)
 
             del request.session['phone']
             del request.session['book_date']
