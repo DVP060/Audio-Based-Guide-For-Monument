@@ -25,6 +25,6 @@ A multilingual mobile and web-based application that provides users with detaile
 | Backend        | Python, Django   |
 | Frontend       | HTML, CSS, JS    |
 | Database       | MySQL            |
-| Tools          | Git, GitHub, VS Code, Android Studio |
+| Tools          | Git, GitHub, VS Code |
 
 ---
